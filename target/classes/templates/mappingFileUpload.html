@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="container-fluid p-3">
+  <!-- Content Start -->
+
+  <div class="row">
+    <div class="col-12">
+      <div class="cards">
+        <div class="card border-0">
+          <h2>QP Setters Vs Moderators Mapping</h2>
+
+
+          <div class="row">
+
+            <div class="col-12">
+
+              <table class="table table-bordered" id="example">
+                <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Subject</th>
+                  <th>QP Setter ID - Name</th>
+                  <th>QP Moderator ID - Name</th>
+                  <th>Assigned Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appoint, iterStat : ${setterModeratorMappingList}">
+                  <td th:text="${iterStat.count}"></td>
+                  <td th:text="${appoint.subject_details}"></td>
+                  <td th:text="|${appoint.qpsetter} - ${appoint.setter_name}|"></td>
+                  <td th:text="|${appoint.moderator} - ${appoint.moderator_name}|"></td>
+                  <td th:text="${appoint.assigned_date}"></td>
+                </tr>
+                </tbody>
+              </table>
+
+
+
+
+            </div>
+            <div class="col-12 mt-3">
+              <p><b>Upload QP Setters Vs Moderators Mapping (CSV File)</b> <a  th:href="@{/setter_moderator_mapping.csv}"  class="link-danger">Click here to download the sample file</a></p>
+              <form method="post" th:action="@{/mappingUpload}" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="file" name="file" accept=".csv" required="" class="form-control">
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" class="btn  btn-primary">Upload</button>
+                  </div>
+                  <div class="col-md-6">
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  $(document).ready(function () {
+          new DataTable('#example', {
+          layout: {
+              topStart: {
+                  buttons: ['copy', 'excel', 'pdf', 'colvis']
+              }
+          }
+      });
+      });
+
+
+</script>
+</html>
