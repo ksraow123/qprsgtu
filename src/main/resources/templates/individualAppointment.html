@@ -6,6 +6,9 @@
       <div class="cards">
         <div class="card border-0">
           <h2>Paper Setter / Moderator Appointment </h2>
+          <div th:if="${message}" style="margin-top: 10px;">
+            <p th:text="${message}"></p>
+          </div>
           <form th:action="@{/appointments/individual/save}"  th:object="${individualAppoint}" method="post" >
             <div class="row mt-3">
               <div class="col-md-4">

@@ -11,10 +11,10 @@
 
 
 	<groupId>in.coempt</groupId>
-	<artifactId>gtuqp</artifactId>
+	<artifactId>qprs</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
-	<name>gtuqp</name>
+	<name>qprs</name>
 	<description>Question bank receiving</description>
 
 	<properties>

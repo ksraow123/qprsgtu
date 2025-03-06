@@ -101,35 +101,36 @@ public class CSVServiceImpl implements CSVService {
     private UserData getUserData(String[] data) {
         String customPassword = RandomUtils.nextLong(10000, 99999) + "";
         Subjects subjects = subjectsService.getSubject_code(data[2].trim());
-        User user = userService.getUserByMobileNo(data[3].trim());
-        if (user == null){
-            user=new User();
-          }
-        user.setFirstName(data[0].trim());
-        user.setLastName(data[1].trim());
-        user.setIsActive(0);
-        user.setMobileNo(data[3].trim());
-        user.setEmail(data[4].trim());
-        int roleId = data[9].trim().equalsIgnoreCase("S") ? 2 : 3;
-        user.setUserName(generateUserName(roleId));
-        user.setRoleId(roleId);
-        user.setPassword(passwordEncoder.encode(customPassword));
-        userService.saveUser(user);
-        UserData userData=new UserData();
-        userData.setNo_of_sets(Integer.parseInt(data[7].trim()));
-        userData.setUser_id(Math.toIntExact(user.getId()));
+        User userExists = userService.getUserByMobileNo(data[3].trim());
+        UserData userData = new UserData();
+        if (userExists == null) {
+            User user = new User();
 
-        CollegeEntity collegeEntity=collegeService.getCollegeByCode(data[8].trim());
-        userData.setCollege_id(String.valueOf(collegeEntity.getId()));
-        userData.setOffice_order_date(data[5].trim());
-        userData.setLast_date_to_submit(data[6].trim());
-        userData.setNo_of_sets(Integer.parseInt(data[7].trim()));
-        userData.setSubject_id(Math.toIntExact(subjects.getId()));
+            user.setFirstName(data[0].trim());
+            user.setLastName(data[1].trim());
+            user.setIsActive(0);
+            user.setMobileNo(data[3].trim());
+            user.setEmail(data[4].trim());
+            int roleId = data[9].trim().equalsIgnoreCase("S") ? 2 : 3;
+            user.setUserName(generateUserName(roleId));
+            user.setRoleId(roleId);
+            user.setPassword(passwordEncoder.encode(customPassword));
+            userService.saveUser(user);
 
-        userData.setRole_id(roleId);
+            userData.setNo_of_sets(Integer.parseInt(data[7].trim()));
+            userData.setUser_id(Math.toIntExact(user.getId()));
 
+            CollegeEntity collegeEntity = collegeService.getCollegeByCode(data[8].trim());
+            userData.setCollege_id(String.valueOf(collegeEntity.getId()));
+            userData.setOffice_order_date(data[5].trim());
+            userData.setLast_date_to_submit(data[6].trim());
+            userData.setNo_of_sets(Integer.parseInt(data[7].trim()));
+            userData.setSubject_id(Math.toIntExact(subjects.getId()));
 
-       return userData;
+            userData.setRole_id(roleId);
+        }
+
+            return userData;
 
     }
 

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -87,13 +88,15 @@ this.userDetailsService=userDetailsService;
 
     @PostMapping("/individual/save")
     @Transactional
-    public String saveAppointment(Model model,IndividualAppointmentVo appointmentVo){
+    public String saveAppointment(Model model, RedirectAttributes redirectAttributes, IndividualAppointmentVo appointmentVo){
         String customPassword = RandomUtils.nextLong(10000, 99999) + "";
 
-        User user = userService.getUserByMobileNo(appointmentVo.getMobile_number());
-        if (user == null){
-            user=new User();
+        User userexists = userService.getUserByMobileNo(appointmentVo.getMobile_number());
+        if (userexists != null){
+            redirectAttributes.addFlashAttribute("message", "User already exists with mobile number: "+appointmentVo.getMobile_number());
+            return "redirect:/appointments/individualAppointments";
         }
+        User user=new User();
         user.setFirstName(appointmentVo.getFname());
         user.setLastName(appointmentVo.getLname());
         user.setIsActive(0);

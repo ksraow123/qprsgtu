@@ -47,18 +47,7 @@ public class FacultyDataServiceImpl implements FacultyDataService {
                 Optional<FacultyData> existingFacultyOpt = facultyDataRepository.findByMobileNumber(faculty.getMobileNumber());
 
                 if (existingFacultyOpt.isPresent()) {
-                    FacultyData existingFaculty = existingFacultyOpt.get(); // Unwrap Optional
 
-                    // Update existing record
-                    existingFaculty.setFirstName(faculty.getFirstName());
-                    existingFaculty.setLastName(faculty.getLastName());
-                    existingFaculty.setEmail(faculty.getEmail());
-                    existingFaculty.setCollegeCode(faculty.getCollegeCode());
-                    existingFaculty.setTeachingExp(faculty.getTeachingExp());
-                    existingFaculty.setIndustryExp(faculty.getIndustryExp());
-                    existingFaculty.setDesignation(faculty.getDesignation());
-
-                    facultyDataRepository.save(existingFaculty); // Save updated record
                 } else {
                     // Save new record
                     facultyDataRepository.save(faculty);

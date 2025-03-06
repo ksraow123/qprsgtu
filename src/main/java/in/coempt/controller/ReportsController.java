@@ -4,6 +4,7 @@ import in.coempt.entity.Appointment;
 import in.coempt.service.ReportService;
 import in.coempt.util.QueryUtil;
 import in.coempt.vo.AdminDashBoardVo;
+import in.coempt.vo.RemunerationReportVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,14 @@ List<AdminDashBoardVo> adminDashBoardVoList=reportService.getAdminDashBoard();
         List<AdminDashBoardVo> adminDashBoardVoList=reportService.getAdminDashBoard();
         model.addAttribute("adminDashBoardVoList",adminDashBoardVoList);
         model.addAttribute("page","/report/subjectdashboard");
+        return "main";
+    }
+ @GetMapping("/subject/remunerationReport")
+    public String getRemunerationReport(Model model) {
+
+        List<RemunerationReportVo> adminDashBoardVoList=reportService.getRemunerationReport();
+        model.addAttribute("adminDashBoardVoList",adminDashBoardVoList);
+        model.addAttribute("page","/report/remuneration");
         return "main";
     }
 
