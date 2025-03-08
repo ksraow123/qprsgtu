@@ -9,7 +9,7 @@ public interface UserService {
     public boolean changePassword(String username, String oldPassword, String newPassword);
 
     public boolean resetPassword(String token, String newPassword);
-    public void sendPasswordResetLink(String email);
+    public void sendPasswordResetLink(String email,String username);
 
     User getUserByMobileNo(String mobileNo);
 

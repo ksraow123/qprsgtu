@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    public void sendPasswordResetLink(String email) {
-        User user = repository.findByEmail(email)
+    public void sendPasswordResetLink(String email,String username) {
+        User user = repository.findByEmailAndUserName(email,username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = UUID.randomUUID().toString();
