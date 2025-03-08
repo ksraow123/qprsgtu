@@ -14,7 +14,7 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="" class="form-label">Mobile No.</label>
-                  <input class="form-control" type="text"  id="mobileNo" th:field="*{mobile_number}" onblur="fetchFacultyData()">
+                  <input class="form-control" type="text"  id="mobileNo" th:field="*{mobile_number}" onblur="fetchFacultyData()"  pattern="\d{10}" maxlength="10" title="Please enter exactly 10 digits for the mobile number">
                 </div>
               </div>
               <div class="col-md-4">
@@ -43,13 +43,13 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="" class="form-label">Email ID</label>
-                  <input class="form-control" type="text" th:field="*{email}" >
+                  <input class="form-control" type="email" th:field="*{email}" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address" required>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="" class="form-label">Institute/College Code</label>
-                  <input class="form-control" type="text" th:field="*{collegeCode}" >
+                  <input class="form-control" type="text" th:field="*{collegeCode}" id="collegeCode"  onblur="fetchCollegeCodeData()" >
                 </div>
               </div>
 
@@ -75,14 +75,14 @@
                 <div class="mb-3">
                   <label for="" class="form-label">No. of Sets   </label>
 
-                  <input class="form-control" type="text" th:field="*{no_of_sets}" >
+                  <input class="form-control" type="text"  pattern="\d{2}" maxlength="2"  title="Please enter exactly 2 digits" th:field="*{no_of_sets}" >
 
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="" class="form-label">Office Order Date  </label>
-                  <input type="date" class="form-control" th:field="*{order_date}" >
+                  <input type="date" class="form-control" th:field="*{order_date}"  id="orderDate" readonly >
                 </div>
               </div>
               <div class="col-md-4">
@@ -134,5 +134,30 @@
                   alert("Faculty data not found for the given Mobile Number");
               });
       }
+  }
+  document.getElementById('orderDate').value = new Date().toISOString().split('T')[0];
+  function fetchCollegeCodeData() {
+    let collegeCode = document.getElementById("collegeCode").value.trim();
+    alert(collegeCode)
+
+
+      fetch("http://localhost:8080/gtuqp/api/college/collegeData/"+collegeCode)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("College data not found");
+                }
+                return response.json();
+              })
+              .then(data => {
+                document.getElementById("fname").value = data.firstName || "";
+                document.getElementById("lname").value = data.lastName || "";
+                document.getElementById("email").value = data.email || "";
+                document.getElementById("collegeCode").value = data.collegeCode || "";
+              })
+              .catch(error => {
+                console.error("Error fetching College   Code data:", error);
+                alert("College    not found for the given College   Code");
+              });
+
   }
 </script>

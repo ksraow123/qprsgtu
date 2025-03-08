@@ -50,15 +50,15 @@ public class PasswordController {
     }
 
     @PostMapping("/forgot")
-    public String processForgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
-        userService.sendPasswordResetLink(email);
+    public String processForgotPassword(@RequestParam String email,@RequestParam (required = true) String username, RedirectAttributes redirectAttributes) {
+        userService.sendPasswordResetLink(email,username);
         redirectAttributes.addFlashAttribute("success", "Password reset link sent to your email.");
         return "redirect:/password/forgot";
     }
 
     @GetMapping("/resend/{email}")
-    public String processResend(@PathVariable("email") String email, RedirectAttributes redirectAttributes) {
-        userService.sendPasswordResetLink(email);
+    public String processResend(@PathVariable("email") String email,@RequestParam(required = false) String username, RedirectAttributes redirectAttributes) {
+        userService.sendPasswordResetLink(email,username);
         redirectAttributes.addFlashAttribute("success", "Password reset link sent to your email.");
         return "redirect:/upload";
     }

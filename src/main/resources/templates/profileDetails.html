@@ -42,13 +42,13 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="" class="form-label">Designation  </label>
-                                <input class="form-control" type="text" th:field="*{designation}">
+                                <input class="form-control" type="text" th:field="*{designation}"  onblur="validateDesignation(designation)" id="designation" title="Please enter alphabets only">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="" class="form-label">Teaching Exp. (In Years and Months)</label>
-                                <input class="form-control" type="text" th:field="*{teaching_experience}">
+                                <input class="form-control" type="text" th:field="*{teaching_experience}" pattern="^[a-zA-Z]+$" title="Please enter alphabets only" required >
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -61,7 +61,8 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="" class="form-label">Account Number</label>
-                                <input class="form-control" type="text" th:field="*{account_no}">
+                                <input class="form-control" type="text" th:field="*{account_no}" pattern="^[a-zA-Z0-9]{5,20}$" minlength="5" maxlength="20"
+                                       title="Please enter between 5 and 20 alphanumeric characters" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -126,5 +127,15 @@ alert("Invalid IFSC Code or no data found.");
 console.error("Error:", error);
 alert("Error fetching bank details. Please check the IFSC code.");
 });
+}
+function validateDesignation(designation) {
+    const input = document.getElementById('designation');
+    const regex = /^[a-zA-Z]+$/;
+    if (!regex.test(input.value)) {
+        alert("Please enter alphabets .");
+        input.value = '';
+        return false;  // Prevent form submission
+    }
+    return true;
 }
 </script>
