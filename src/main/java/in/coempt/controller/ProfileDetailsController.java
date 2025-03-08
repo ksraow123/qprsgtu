@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ model.addAttribute("page","profileDetails");
     }
 
     @PostMapping("/saveProfile")
-    public String saveProfile(Model model,ProfileDetailsVo profileDetailsVo){
+    public String saveProfile(Model model, ProfileDetailsVo profileDetailsVo, RedirectAttributes redirectAttributes){
         UserDetails user = (UserDetails) SecurityUtil.getLoggedUserDetails().getPrincipal();
         User userEntity = userRepository.findByUserName(user.getUsername());
 
@@ -60,8 +61,17 @@ model.addAttribute("page","profileDetails");
         BeanUtils.copyProperties(profileDetailsVo, detailsEntity);
         detailsEntity.setUser_id(userEntity.getId());
         profileDetailsRepository.save(detailsEntity);
-        return "redirect:/viewProfile";
+       // return "redirect:/viewProfile";
+        return "redirect:/sucess";
     }
+    @GetMapping("/sucess")
+    public String checking(Model model) {
+        return "viewProfile";
+    }
+
+
+
+
 
     @GetMapping("/api/bank/getDetails/{ifsc}")
     @ResponseBody
